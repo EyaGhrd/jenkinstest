@@ -15,22 +15,17 @@ pipeline {
 
         stage('Maven Build') {
             steps {
-                // Run Maven build
+                // Run the Maven build
                 sh 'mvn clean install'
             }
         }
 
-        stage('Maven package') {
-            steps {
-                sh 'mvn clean package -DskipInstall'
-            }
-        }
-
-        stage('Docker Build') {
+        stage('Build Docker Image') {
             steps {
                 script {
-                    // Build Docker image if needed
-                    def img = docker.build("${IMAGE}", ".")
+                    // Build the Docker image
+                    def img = docker.build("${IMAGE}", '.')
+                    echo "Docker image built: ${img}"
                 }
             }
         }
@@ -38,8 +33,9 @@ pipeline {
         stage('Run Docker Container') {
             steps {
                 script {
-                    def container = docker.run('-d -p 8081:8080 --name my-container $IMAGE')
-                    // Other logic to interact with the container
+                    // Run the Docker container
+                    def container = docker.run("${IMAGE}", "-p 8080:8080")
+                    echo "Docker container is running: ${container}"
                 }
             }
         }
