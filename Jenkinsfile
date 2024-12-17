@@ -29,7 +29,7 @@ pipeline {
         stage('Run Docker Container') {
             steps {
                 script {
-                    def container = img.run("-p 8080:8080")
+                    def container = img.run("-p 8081:8080")
                     echo "Docker container is running: ${container.id}"
                 }
             }
