@@ -9,7 +9,7 @@ pipeline {
         stage('Clone') {
             steps {
                 // Clone your Git repository
-                git 'https://github.com/EyaGhrd/jenkinstest.git'
+                git branch: 'main', url: 'https://github.com/EyaGhrd/jenkinstest.git', credentialsId: 'github-token'
             }
         }
 
