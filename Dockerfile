@@ -15,10 +15,10 @@ RUN mvn clean install
 FROM openjdk:11-jre-slim
 
 # Copy the jar file from the builder stage
-COPY --from=builder /app/target/jeenkins-test-1.0-SNAPSHOT.jar /usr/local/bin/jeenkins-test-1.0-SNAPSHOT.jar
+COPY --from=builder /app/target/jenkins-test-1.0-SNAPSHOT.jar /usr/local/bin/jenkins-test-1.0-SNAPSHOT.jar
 
 # Expose the application port
 EXPOSE 8080
 
 # Run the app
-ENTRYPOINT ["java", "-jar", "/usr/local/bin/jeenkins-test-1.0-SNAPSHOT.jar"]
+ENTRYPOINT ["java", "-jar", "/usr/local/bin/jenkins-test-1.0-SNAPSHOT.jar"]
