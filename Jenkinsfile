@@ -33,8 +33,10 @@ pipeline {
             steps {
                 script {
                     // Run the Docker container
-                    docker.image("${IMAGE}").run('-d -p 8081:8080')  // Run the container in detached mode and expose port 8081 on the host
+                    docker.image("${IMAGE}").run('-d -p 8081:8080')
+                    echo "Docker container is running: ${container}"
                 }
             }
         }
+    }
 }
