@@ -16,7 +16,8 @@ pipeline {
         stage('Maven Build') {
             steps {
                 // Run the Maven build
-                sh 'mvn clean install'
+                sh 'mvn clean install -DskipInstall
+'
             }
         }
 
@@ -24,7 +25,7 @@ pipeline {
             steps {
                 script {
                     // Build the Docker image
-                    def img = docker.build("${IMAGE}", '.')
+                    img = docker.build("${IMAGE}:latest", '.')
                 }
             }
         }
@@ -33,8 +34,8 @@ pipeline {
             steps {
                 script {
                     // Run the Docker container
-                    sh "docker run -d -p 8081:8080 my-image:latest"
-                    echo "Docker container is running: ${container}"
+                    def container = img.run("-p 8081:8080")
+                    echo "Docker container is running: ${container.id}"
                 }
             }
         }
