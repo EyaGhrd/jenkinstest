@@ -15,16 +15,13 @@ pipeline {
         stage('Maven Build') {
             steps {
                 sh 'mvn clean install'
-                sh 'ls -l target/'
             }
         }
 
         stage('Build Docker Image') {
             steps {
                 script {
-                    def workspace = pwd()
-                    img = docker.build("${IMAGE}", "${workspace}")
-                    docker.run("--rm", "${IMAGE}:latest", "ls", "-l", "/app")
+                    img = docker.build("${IMAGE}", '.')
                 }
             }
         }
