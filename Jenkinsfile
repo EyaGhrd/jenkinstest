@@ -33,7 +33,7 @@ pipeline {
             steps {
                 script {
                     // Run the Docker container
-                    docker.image("${IMAGE}").run('-d -p 8081:8080')
+                    sh "docker run -d -p 8081:8080 my-image:latest"
                     echo "Docker container is running: ${container}"
                 }
             }
