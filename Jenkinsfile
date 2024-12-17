@@ -1,45 +1,41 @@
 pipeline {
-    agent any
+    agent any  // This tells Jenkins to run the pipeline on any available node
 
     environment {
-        MAVEN_HOME = '/usr/share/maven'  // Update path to Maven if necessary
+        IMAGE = 'my-image'  // Define an environment variable if needed
     }
 
     stages {
-        stage('Clone Repository') {
+        stage('Clone') {
             steps {
-                git 'https://github.com/EyaGhrd/jenkinstest'  // Replace with your repo URL
+                // Clone your Git repository
+                git 'https://github.com/EyaGhrd/jenkinstest.git'
             }
         }
 
-        stage('Build with Maven') {
+        stage('Maven Build') {
             steps {
+                // Run Maven build
                 sh 'mvn clean install'
             }
         }
 
-        stage('Archive Build') {
+        stage('Docker Build') {
             steps {
-                archiveArtifacts '**/target/*.jar'
+                script {
+                    // Build Docker image if needed
+                    def img = docker.build("${IMAGE}", ".")
+                }
             }
         }
 
-        stage('Deploy') {
+        stage('Run Docker') {
             steps {
-                // Add deploy commands here (e.g., to a server or Docker)
+                script {
+                    // Run Docker container
+                    img.run('-d -p 8080:8080')
+                }
             }
-        }
-    }
-
-    post {
-        always {
-            echo 'This will run after all stages, regardless of success or failure.'
-        }
-        success {
-            echo 'Build was successful!'
-        }
-        failure {
-            echo 'Build failed.'
         }
     }
 }
