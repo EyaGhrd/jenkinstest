@@ -17,7 +17,6 @@ pipeline {
             steps {
                 // Run the Maven build
                 sh 'mvn clean install -DskipInstall'
-'
             }
         }
 
