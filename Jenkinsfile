@@ -35,11 +35,11 @@ pipeline {
             }
         }
 
-        stage('Run Docker') {
+        stage('Run Docker Container') {
             steps {
                 script {
-                    // Run Docker container
-                    img.run('-d -p 8080:8080')
+                    def container = docker.run('-d -p 8081:8080 --name my-container $IMAGE')
+                    // Other logic to interact with the container
                 }
             }
         }
